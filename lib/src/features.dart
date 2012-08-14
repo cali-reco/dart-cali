@@ -19,18 +19,18 @@ class Features {
         });
     }
 
-    double call(Scribble scribble) {
+    num call(Scribble scribble) {
         if (_nodeList == null) { return; }
         var dom = 1;
         for (var i = 0; i < _nodeList.length; i++) {
-            var node = _nodeList[i];
-            var tmp = node.fuzzySet.degOfMember( node.evaluationFn(scribble) );
-            if (tmp < dom) {
-                dom = tmp;
-            }
-            if (dom == 0) {
-                break;
-            }
+          FuzzyNode node = _nodeList[i];
+          var tmp = node.degOfMember(scribble);
+          if (tmp < dom) {
+              dom = tmp;
+          }
+          if (dom == 0) {
+              break;
+          }
         }
         return dom;
     }

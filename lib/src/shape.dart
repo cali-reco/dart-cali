@@ -46,7 +46,7 @@ abstract class Shape extends Gesture {
         _dashed = false;
         _bold = false;
         _open = false;
-        _sc = null;
+        scribble = null;
         if (_dom!= 0.0) {
             setUp(sc);
             if (_normalFeature.call(sc)!=0.0) {

@@ -10,10 +10,9 @@ class FuzzyNode {
      * @param sc a scribble
      * @return the value of the degree of membership
      */    
-    double degOfMember(Scribble sc) {
+    num degOfMember(Scribble sc) {
         if (evaluationFn != null) {
-            var d = evaluationFn.call(sc);
-            
+            var d = evaluationFn(sc);
             if (fuzzySet!=null) {
                 return fuzzySet.degOfMember(d);
             } 
@@ -44,7 +43,7 @@ class FuzzySet {
 
     FuzzySet(this.a, this.b, this.wa, this.wb);
 
-    double degOfMember(double value) {
+    num degOfMember(num value) {
         if ((value < (a - wa)) || (value > (b + wb)) )
             return 0;
         if (value >= a && value <= b)

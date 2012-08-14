@@ -12,6 +12,8 @@ class Polygon implements List<Point> {
         }
     }
 
+    toString() => Strings.join(map((pt) => pt.toString()), ",");
+    
     /*----------------------------------------------------------------------------+
     | Description: Computes the area of the polygon, using a general algorithm.
     | Output: the area
@@ -61,7 +63,7 @@ class Polygon implements List<Point> {
     int get length() => _points.length;
     Dynamic reduce(Dynamic initialValue,
                    Dynamic combine(Dynamic previousValue, Point element)) => _points.reduce(initialValue, combine);
-    
+
     // delegates for List
     void add(Point c) => _points.add(c);
     void addAll(List<Point> pts) => pts.forEach((pt) => add(pt));

@@ -1,6 +1,6 @@
 class Recognizer {
   List shapes;
-  num _alfaCut;
+  num alfaCut;
   
   /**
    * Constructor 
@@ -8,7 +8,7 @@ class Recognizer {
    * @param alfaCut If the probability of a shape is below this 
    * threshold, it will not be returned
    */
-  Recognizer ([bool rotated = true, num alfaCut = 0])
+  Recognizer ([bool rotated = true, this.alfaCut = 0])
           :   shapes = [];
 
   addShape(Shape shape) => shapes.add(shape);
@@ -60,7 +60,7 @@ class Recognizer {
           val = shape.evalGlobalFeatures(scribble);
           print("${shape.name} -> $val");
           if (val > _alfaCut) {
-              val2 = shape.evalLocalFeatures(scribble, _shapes);
+              val2 = shape.evalLocalFeatures(scribble, shapes);
               if (val2 < val) {
                   val = val2;
               }  

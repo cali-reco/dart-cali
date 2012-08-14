@@ -3,7 +3,7 @@ class Line extends Shape {
 	List<Point> _points;
 	
 	Line([bool rotated = true])
-	 :	super("Line", rotated) {
+	 : super("Line", rotated) {
 		_normalFeature = new Features([[Evaluate.Tl_Pch, 0.4, 0.45]]);
 		_dashFeature = new Features([
 			[Evaluate.Tl_Pch, 0, 0, 0.4, 0.45],

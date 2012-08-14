@@ -21,7 +21,6 @@ class Scribble implements List<Stroke>{
 
     add(Stroke stroke) {
         _len += stroke.strokeLength;
-        print("scribble length is $_len");
         _totalSpeed += stroke.drawingSpeed;
         _strokes.add(stroke);
     }
@@ -134,18 +133,24 @@ class Scribble implements List<Stroke>{
                 ordedPoints[np-1],
                 ordedPoints[0]]);
 
-            print("convexhull ${_convexHull.length}");
+            print("convexhull $_convexHull");
+
             // try to push all but the first point
-            ordedPoints.getRange(1, ordedPoints.length - 1).forEach((pt) {
+            var nc  = _convexHull.length;
+           
+            for (var i = 1; i < nc; i++) {
+                var pt = ordedPoints[i];
                 if (Helper.left(
                         _convexHull[_convexHull.length-2], 
                         _convexHull[_convexHull.length-1], 
                         pt)) {
                     _convexHull.add(pt);
+                    nc++;
                 } else { 
                     _convexHull.removeLast();
+                    nc--;
                 }
-            });
+            }
                 
             
             //_convexHull = filter(@_convexHull) # reduce the number of points

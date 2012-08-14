@@ -13,7 +13,7 @@ class TestRecognizer {
       expect("Tap", equals(shapes[0].name));
     });
      
-
+    
     test('Recognizes a Line', () {
       var recognizer = new Recognizer();
       recognizer.addShape(new Line());

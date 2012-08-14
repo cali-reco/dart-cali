@@ -2,9 +2,9 @@
 
 #import('helper.dart', prefix:'Helper');
 
-typedef double EvaluationFn(scribble);
+typedef num EvaluationFn(scribble);
 
-Tl_Pch(sc) => sc._len / sc.convexHull.perimeter;
+Tl_Pch(sc) => sc.scribbleLength / sc.convexHull.perimeter;
 Pch2_Ach(sc) => Math.pow(sc.convexHull.perimeter,2) / sc.convexHull.area;
 Pch_Ns_Tl(sc) => sc.convexHull.perimeter/(sc.scribbleLength/sc.length);
 Hollowness(sc) => sc.ptsInSmallTri;
