@@ -13,11 +13,12 @@ class Circle extends Shape {
     Circle ([bool rotated]) 
         :   super("Circle", rotated),
             center = new Point(), 
-            points = new List<Point>(4),
-            _features = new Features(
-            [Evaluate.Pch2_Ach, 12.5, 12.5, 13.2, 13.5],
-            [Evaluate.Hollowness, 0, 0, 0, 0]
-        );
+            _points = new List<Point>(4) {
+        _features = new Features([
+          [Evaluate.Pch2_Ach, 12.5, 12.5, 13.2, 13.5],
+          [Evaluate.Hollowness, 0, 0, 0, 0]
+          ]);
+    }
     
 
 
@@ -31,13 +32,13 @@ class Circle extends Shape {
 
         var d2 = Math.sqrt(
             Math.pow(_points[2].x-_points[1].x,2) + 
-            Math.pow(_points[2].y-_points[1].y,2))
+            Math.pow(_points[2].y-_points[1].y,2));
         
         radius = ((d1+d2)/2/2).floor();
         
         center = new Point(
             x: (_points[0].x + d2/2).floor(),
             y: (_points[0].y + d1/2).floor()
-        )
+        );
     }
 }

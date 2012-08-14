@@ -3,7 +3,7 @@ class Point {
 	num y;
 	num time;
 
-	Point(this.x, this.y, [this.time]);
+	Point([this.x = 0, this.y = 0, this.time = 0]);
 	
 	bool equals(other) {
 		if (other == null) { return false; }

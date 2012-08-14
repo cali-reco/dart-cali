@@ -59,7 +59,9 @@ class Polygon implements List<Point> {
     bool every(bool f(Point c)) => _points.every(f);
     bool some(bool f(Point c)) => _points.some(f);
     int get length() => _points.length;
-
+    Dynamic reduce(Dynamic initialValue,
+                   Dynamic combine(Dynamic previousValue, Point element)) => _points.reduce(initialValue, combine);
+    
     // delegates for List
     void add(Point c) => _points.add(c);
     void addAll(List<Point> pts) => pts.forEach((pt) => add(pt));

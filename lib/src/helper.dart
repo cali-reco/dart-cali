@@ -46,7 +46,7 @@ dot(a, b) {
 }
 
 angle(a, b) {
-	if ((a is Vector) and (b is Vector)) {
+	if ((a is Vector) && (b is Vector)) {
 		return Math.atan2(cross(a, b), dot(a, b));
 	} else { 
 		return Math.atan2(b.y - a.y, b.x - a.x);

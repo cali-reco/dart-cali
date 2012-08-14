@@ -15,7 +15,7 @@ Hm_Wbb(sc) {
 }
 Vm_Hbb(sc) {
     var pbb = sc.boundingBox;
-    return abs((pbb[2].y - pbb[1].y) / sc.vMovement()).abs();
+    return ((pbb[2].y - pbb[1].y) / sc.vMovement()).abs();
 }
 Hbb_Wbb(sc) {
     var pbb = sc.boundingBox().getPoints();

@@ -221,7 +221,8 @@ class Scribble implements List<Stroke>{
                 var pa = pts[ia],
                     pb = pts[ib],
                     pc = pts[ic];
-                if( (var area=Helper.triangleArea(pa, pb, pc)) > _trigArea ) {
+                var area=Helper.triangleArea(pa, pb, pc);
+                if( area > _trigArea ) {
                     ripc = ic;
                     trigArea = area;
                 } else {
@@ -532,7 +533,7 @@ class Scribble implements List<Stroke>{
           | Notes:
           +----------------------------------------------------------------------------*/
     Polygon get smallTriangle(){
-        var tri = largestTriangle(),
+        var tri = largestTriangle,
             p1 = tri[0],
             p2 = tri[1],
             p3 = tri[2],
