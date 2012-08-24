@@ -16,7 +16,7 @@ class Circle extends Shape {
             _points = new List<Point>(4) {
         _features = new Features([
             [Evaluate.Pch2_Ach, 12.5, 12.5, 13.2, 13.5],
-            [Evaluate.Hollowness, 0, 0, 0, 0]
+            [Evaluate.Hollowness, 0.0, 0.0, 0.0, 0.0]
           ]);
     }
     

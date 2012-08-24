@@ -5,16 +5,17 @@
 class Features {
 	List _nodeList;
 
-    /** nodes = [fn, [awa, a, b = Number.MAX_VALUE, bwb = Number.MAX_VALUE]]* */
+    /** nodes = [fn, awa, a, b = Number.MAX_VALUE, bwb = Number.MAX_VALUE]* */
     Features(List nodes) {
         _nodeList = nodes.map((n) {
             var idx = 0;
             var fn = n[idx++],
                 awa = n[idx++],
                 a = n[idx++],
-                b = (++idx < n.length)? n[idx] : double.INFINITY,
-                bwb = (++idx < n.length)? n[idx] : double.INFINITY;
-            var fuzzySet = new FuzzySet(a, b, a-awa, bwb-b);
+                b = (idx  < n.length)? n[idx++] : double.INFINITY,
+                bwb = (idx < n.length)? n[idx] : double.INFINITY,
+                wb = (b == double.INFINITY)? double.INFINITY : bwb-b;
+            var fuzzySet = new FuzzySet(a, b, a-awa, wb);
             return new FuzzyNode(fuzzySet, fn);
         });
     }

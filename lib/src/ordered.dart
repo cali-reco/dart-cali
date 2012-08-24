@@ -12,23 +12,32 @@ class OrderedCollection {
 
 	OrderedCollection([this.repeated = true]) : collection = new List();
 
-    bool contains(el) => collection.indexOf(el) != -1;
+    bool containsOrder(val) => getOrderVal(val) != null;
 
     insert(el, orderVal) {
-        if (!repeated && this.contains(el)) {
+        if (!repeated && this.containsOrder(orderVal)) {
             return get(el);
         }
         collection.add(new OrderedEntry(el, orderVal));
     }
 
-    get(el) {
-    	collection.forEach((e) {
-    		if (e.element == el) {
+    get(order) {
+      for (var e in collection){
+    		if (e.orderVal == order) {
     			return e.element;
     		}
-    	});
+      }
     	return null;
     }
+    
+    getOrderVal(val) {
+      for (var e in collection){
+        if (e.orderVal == val) {
+          return e.orderVal;
+        }
+      }
+      return null;
+    }    
 
     List toList() {
 

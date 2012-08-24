@@ -17,10 +17,11 @@ class Stroke implements List<Point> {
 	}
 
 	void add(Point pt, [num time = 0]){
-		if (length > 1) {
-			strokeLength += Math.sqrt(Math.pow(last().x - pt.x,2) + Math.pow(last().y - pt.y,2));
-		} 
+    if (length > 0) {
+      strokeLength += Math.sqrt(Math.pow(last().x - pt.x,2) + Math.pow(last().y - pt.y,2));
+    } 
 		_points.add(pt);
+
 	}
 
 	// delegates for Collection

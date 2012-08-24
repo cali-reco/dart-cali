@@ -10,24 +10,25 @@ abstract class Shape extends Gesture {
 
     abstract setUp(Scribble sc);   
     
-    Shape (String name, [this._rotated = true])
-        :   super(name),
-            _normalFeature = new Features([
+    Shape (String name, [bool rotated = true])
+        : this._rotated = rotated, 
+          super(name),
+          _normalFeature = new Features([
                 [Evaluate.Tl_Pch, 0.83, 0.93]
             ]),
-            _dashFeature = new Features([
+          _dashFeature = new Features([
                 [Evaluate.Tl_Pch, 0.2, 0.3, 0.83, 0.93],
                 [Evaluate.Pch_Ns_Tl, 5, 10]
-            ]),
-            _openFeature = new Features([
+          ]),
+          _openFeature = new Features([
                 [Evaluate.Tl_Pch, 0.2, 0.3, 0.83, 0.93]
-            ]),
-            _boldFeature =  new Features([
+          ]),
+          _boldFeature =  new Features([
                 [Evaluate.Tl_Pch, 1.5, 3]
-            ]);
+          ]);
     
     
-    double evalLocalFeatures(Scribble sc, List shapes) => 1; 
+    num evalLocalFeatures(Scribble sc, List shapes) => 1; 
     
     bool get isDashed() =>_dashed; 
     bool get isBold() =>_bold; 
@@ -41,7 +42,7 @@ abstract class Shape extends Gesture {
      | Output: degree of membership
      | Notes: This method is the same for all shapes.
      +----------------------------------------------------------------------------*/
-    double evalGlobalFeatures(Scribble sc) {
+    num evalGlobalFeatures(Scribble sc) {
         _dom = _features.call(sc);
         _dashed = false;
         _bold = false;

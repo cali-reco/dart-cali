@@ -6,22 +6,22 @@ class Unknown extends Shape {
 	
 
 	setUp(Scribble scribble) {
-		this.scribble = sc;
+		this.scribble = scribble;
 		_dashed = false;
 		_bold = false;
 		_open = false;
 		_dom = 1;
 		
-		if (_dashFeature.evaluate(sc) != 0.0) {
-			_dashed = true;
+		if (this._dashFeature.call(scribble) != 0.0) {
+		  this._dashed = true;
 		}
-		else if (_openFeature != null) {
-			if (_openFeature.evaluate(sc) != 0.0) {
-				_open = true;
+		else if (this._openFeature != null) {
+			if (this._openFeature.call(scribble) != 0.0) {
+			  this._open = true;
 			}
 			else {
-				if (_boldFeature.evaluate(sc) != 0.0) {
-					_bold = true;
+				if (this._boldFeature.call(scribble) != 0.0) {
+				  this._bold = true;
 				}
 			}
 		}

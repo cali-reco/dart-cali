@@ -1,6 +1,6 @@
 class Polygon implements List<Point> {
-    double _area = null;
-    double _perim = null;
+    num _area = null;
+    num _perim = null;
 
     List<Point> _points;
 
@@ -18,37 +18,40 @@ class Polygon implements List<Point> {
     | Description: Computes the area of the polygon, using a general algorithm.
     | Output: the area
     +----------------------------------------------------------------------------*/
-    double get area() {
-        if (_area == null) {
+    num get area() {
+      if (_area == null) {
+        _area = 0;
     		if (length < 3) {
-            	_area = 0;
         		return _area;
     		}
 
     		for (int i = 0; i < length - 1; i++) {
-	    	    _area += [i].x * [i+1].y - [i+1].x * [i].y;
+	    	    _area += this[i].x * this[i+1].y - this[i+1].x * this[i].y;
     		}
 	    	
 	    	_area /= 2;
 	    	
-        }
-        return _area.abs();
+      }
+      print("area $_area");
+      return _area.abs();
     }
 
     /*----------------------------------------------------------------------------+
     | Description: Computes the perimeter of the polygon, using a general algorithm.
     | Output: the perimeter
     +----------------------------------------------------------------------------*/
-    double get perimeter() {
+    num get perimeter() {
         if (_perim == null) {
+          this._perim = 0.0;
             for (int i = 0; i < length - 1; i++) {
-                _perim += Helper.distance([i], [i+1]);
+                _perim += Helper.distance(this[i], this[i+1]);
             }	
             
             if (length < 3) {
                 _perim *= 2;
             }
         }
+        print("perimeter $_perim");
         return _perim;
     }
 
@@ -72,4 +75,5 @@ class Polygon implements List<Point> {
     Point last() => _points.last();
     List<Point> getRange(int start, int length) => _points.getRange(start, length);
     Point removeLast() => _points.removeLast();
+    List<Point> get points => _points;
 }

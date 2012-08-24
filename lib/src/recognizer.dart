@@ -1,6 +1,6 @@
 class Recognizer {
   List shapes;
-  num alfaCut;
+  num _alfaCut;
   
   /**
    * Constructor 
@@ -8,8 +8,8 @@ class Recognizer {
    * @param alfaCut If the probability of a shape is below this 
    * threshold, it will not be returned
    */
-  Recognizer ([bool rotated = true, this.alfaCut = 0])
-          :   shapes = [];
+  Recognizer ([bool rotated = true, alfaCut = 0])
+          :   shapes = [], _alfaCut = alfaCut;
 
   addShape(Shape shape) => shapes.add(shape);
 
@@ -47,7 +47,7 @@ class Recognizer {
    *
    */
   List recognize(Scribble scribble) {
-      double val, val2;
+      num val, val2;
       
       shapes.forEach((s) => s.resetDom());
 

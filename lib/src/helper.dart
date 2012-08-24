@@ -1,4 +1,6 @@
 #library("helper");
+#source("point.dart");
+var PRECISION = 1e-6;
 
 distance(p1, p2) => Math.sqrt( Math.pow(p2.x-p1.x,2) + Math.pow(p2.y-p1.y,2) );
 
@@ -58,18 +60,18 @@ closest(p1, p2, p3) {
 	
 	var d = p2.x - p1.x;
 	
-	if (d == 0)
+	if (d.abs() < PRECISION) // JS numeric error
 		return new Point(p1.x, p3.y);  
 	
-	if (p1 == p3)
+	if (distance(p1, p3) < PRECISION) // JS numeric error
 		return p3; 
 	        
-	if (p2 == p3)
+	if (distance(p2, p3) < PRECISION) // JS numeric error
 		return p3;
 	        
 	var m = (p2.y - p1.y) / d;
 	
-	if (m == 0)
+	if (m.abs() < PRECISION) // JS numeric error
 		return new Point(p3.x, p1.y); 
 
 	var b1 = p2.y - m * p2.x,
@@ -87,4 +89,13 @@ quadArea(p1, p2, p3, p4) {
 	area += p4.x * p1.y - p1.x * p4.y;
 	
 	return (area/2).abs();
+}
+
+class Vector {
+  var start, end;
+  
+  Vector(this.start, this.end);
+  
+  num get length() => distance(this.start,this.end);
+
 }

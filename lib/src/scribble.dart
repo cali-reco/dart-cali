@@ -82,9 +82,9 @@ class Scribble implements List<Stroke>{
             this.forEach((stroke) {
                 stroke.forEach((point) {
                     var ang = Helper.theta(min, point);
-                    if (ordedPoints.contains(point)) {
+                    if (ordedPoints.containsOrder(ang)) {
                         // there is another point with the same angle
-                        var ptr = ordedPoints.get(point);
+                        var ptr = ordedPoints.get(ang);
 
                         // so we compute the distance and save the big one.
                         if (Helper.distance(min, point) > Helper.distance(min,ptr)) {
@@ -134,11 +134,12 @@ class Scribble implements List<Stroke>{
                 ordedPoints[0]]);
 
             print("convexhull $_convexHull");
+            print("oerderPoints $ordedPoints");
 
             // try to push all but the first point
             var nc  = _convexHull.length;
            
-            for (var i = 1; i < nc; i++) {
+            for (var i = 1; i < np; i++) {
                 var pt = ordedPoints[i];
                 if (Helper.left(
                         _convexHull[_convexHull.length-2], 
@@ -152,7 +153,7 @@ class Scribble implements List<Stroke>{
                 }
             }
                 
-            
+            print("convexhull full $_convexHull");
             //_convexHull = filter(@_convexHull) # reduce the number of points
         }
         return _convexHull;
@@ -205,133 +206,294 @@ class Scribble implements List<Stroke>{
         return min;
     }
 
+    /*--------------------------------------------------------------------------------+
+    | Description: Computes the largest quadrangular that fits inside the convex hull
+    | Output: A polygon that is the largest quadrangular.
+    +---------------------------------------------------------------------------------*/
+
+
+    Polygon get largestQuad() {
+        
+      var pts = convexHull,
+        np = convexHull.length;
+  
+      num ripa = 0, ripb = 0, ripc = 0; // indexes for rooted triangle
+  
+      if (_largestQuad == null) {
+        if (np <= 5){
+          _largestQuad = new Polygon();
+          for(var i = 0; i < np; i++){  
+            _largestQuad.add(pts[i]);
+          }
+          for (var i = np; i < 5; i++){ 
+            _largestQuad.add(pts[0]);
+          }
+          return _largestQuad;
+        }
+    
+      // computes one rooted triangle
+        num ia = 0, area = 0, triArea = 0;
+        for (num ib = 1; ib <= np-2; ib++){ // in [1..np-2]
+          num ic;
+          if (ib >= 2){
+            ic = ib + 1;
+          } else {
+            ic = 2;
+          }
+          var res = compRootedTri (pts,ia, ib, ic,np);
+          area = res[0];
+          ic = res[1];
+          if (area > triArea){
+            triArea = area;
+            ripa = ia;
+            ripb = ib;
+            ripc = ic; 
+          }
+        }
+    
+    
+        // computes the rooted quadrilateral based on a rooted triangle
+        num fipa = 0, fipb = 0, fipc = 0, fipd = 0, // indexes for final values
+          id = 0, ib0 = 0, quadArea = 0, ic0 = 0;
+    
+        for (num ib = ripa + 1; ib <= ripb; ib++){ // ib in [ripa+1..ripb]
+          if (ib == ripb){
+            ic0 = ripb + 1;
+          }
+          else{
+            ic0 = ripb;
+          }
+          for (num ic = ic0; ic <= ripc; ic++){ //ic in [ic0..ripc]
+            if (ic == ripc){
+              id = ripc + 1;
+            }
+            else{
+              id = ripc;
+            }
+            var res = compRootedQuad(pts, ia, ib, ic, id, np);
+            area = res[0];
+            ic = res[1];
+            if (area > quadArea){
+              quadArea = area;
+              fipa = ia;
+              fipb = ib;
+              fipc = ic;
+              fipd = id;
+            }
+          }
+        }
+        
+        // computes other quadrilaterals and choose the largest one
+        num finalArea = quadArea,
+        pf0 = fipa,
+        pf1 = fipb,
+        pf2 = fipc,
+        pf3 = fipd;
+        ripa = fipa;
+        ripb = fipb;
+        ripc = fipc;
+        num ripd = fipd;
+    
+        for (num ia = ripa+1; ia <= ripb; ia++){ //ia in [ripa+1..ripb]
+          if (ia == ripb){
+            ib0 = ripb + 1;
+          }
+          else {
+            ib0 = ripb;
+          }
+          quadArea = 0;
+          area = 0;
+          num ic0;
+          for (var ib = ib0; ib <= ripc; ib++){ // ib in [ib0..ripc]
+            if (ib == ripc){
+              ic0 = ripc + 1;
+            }
+            else{ 
+              ic0 = ripc;
+            }
+            for (num ic = ic0; ic <= ripd; ic++){ //ic in [ic0..ripd]
+              if (ic == ripd){
+                id = ripd + 1;
+              }
+              else{
+                id = ripd;   
+              }
+              var res = compRootedQuad(pts, ia, ib, ic, id, np);
+              area = res[0];
+              id = res[1];
+              if (area > quadArea){
+                quadArea = area;
+                fipa = ia;
+                fipb = ib;
+                fipc = ic;
+                fipd = id;
+              }
+            }
+          }
+          if (quadArea > finalArea){
+            finalArea = quadArea;
+            pf0 = fipa;
+            pf1 = fipb;
+            pf2 = fipc;
+            pf3 = fipd;
+          }
+        }
+        //Tranfer the points to a polygon
+        _largestQuad = new Polygon();
+        _largestQuad.add(convexHull[pf0]);
+        _largestQuad.add(convexHull[pf1]);
+        _largestQuad.add(convexHull[pf2]);
+        _largestQuad.add(convexHull[pf3]);
+        _largestQuad.add(convexHull[pf0]);
+      }
+      return _largestQuad;
+    } 
+      
+    List compRootedQuad(pts,ripa,ripb,ripc,ripd,np){
+      num trigArea = 0;
+      // computes one rooted triangle        
+      var pa = pts[ripa],
+        pb = pts[ripb],
+        pc = pts[ripc]; 
+      num area;
+      num new_ripd = ripd;
+      for (num id = ripd; id < np - 1; id++){ // id in [ripd...np - 1]
+        var pd = pts[id];
+        if ((area = Helper.quadArea(pa,pb,pc,pd)) > trigArea){
+          new_ripd = id;
+          trigArea = area;
+        }
+        else {
+          break;
+        }
+      }
+      return [trigArea, new_ripd];
+    }
+    
+    List compRootedTri(List pts, int ripa, int ripb, int ripc,int np) {
+      double trigArea = 0.0;
+
+      //  computes one rooted triangle        
+      int ia = ripa,
+          ib = ripb;
+
+      for(var ic=ripc; ic < np - 1; ic++ ) {
+        var pa = pts[ia],
+            pb = pts[ib],
+            pc = pts[ic];
+        var area=Helper.triangleArea(pa, pb, pc);
+        if( area > trigArea ) {
+          ripc = ic;
+          trigArea = area;
+        } else {
+          break;
+        }
+      }
+      return [trigArea, ripc];
+    }  
+      
     /*----------------------------------------------------------------------------+
           | Description: Computes the largest triangle that fits inside the convex hull
           | Output: A polygon that is the largest triangle.
           | Notes: We used the algorithm described by J.E. Boyce and D.P. Dobkin.
           +----------------------------------------------------------------------------*/
-    Polygon get largestTriangle() {
-
-        var pts = convexHull,
-            np = convexHull.length;
-
-        compRootedTri(int ripa, int ripb, int ripc) {
-            double trigArea = 0;
-
-            //  computes one rooted triangle        
-            int ia = ripa,
-                ib = ripb;
-
-            for(var ic=ripc; ic < np - 1; ic++ ) {
-                var pa = pts[ia],
-                    pb = pts[ib],
-                    pc = pts[ic];
-                var area=Helper.triangleArea(pa, pb, pc);
-                if( area > _trigArea ) {
-                    ripc = ic;
-                    trigArea = area;
-                } else {
-                    break;
-                }
-            }
-            return trigArea;
-        }
+    Polygon get largestTriangle() { 
 
         if (_largestTriangle == null) {
-            convexHull();
+          //var pts = convexHull,
+          //  np = convexHull.length;
+          int ia, ib, ic, i;
+          int ripa = 0, ripb = 0, ripc = 0; // indexes of rooted triangle
+          double area, triArea;
 
-            int ia, ib, ic, i;
-            int ripa = 0, ripb = 0, ripc = 0; // indexes of rooted triangle
-            double area, triArea;
+          int numPts = convexHull.length;
+          List pts = _convexHull.points;
 
-            int numPts = _convexHull.getNumPoints();
-            CIList pts = _convexHull.getPoints();
-
-            if (numPts <= 3) {
-                _largestTriangle = new CIPolygon();
-                for (i=0; i < numPts; i++) {
-                    _largestTriangle.addPoint((CIPoint)pts.get(i));
-                }
-                for (i= numPts; i < 4; i++) {
-                    _largestTriangle.addPoint((CIPoint)pts.get(0));
-                }
-                return _largestTriangle;
-            }
+          if (numPts <= 3) {
+              _largestTriangle = new Polygon();
+              for (i=0; i < numPts; i++) {
+                  _largestTriangle.addPoint(pts.get(i));
+              }
+              for (i= numPts; i < 4; i++) {
+                  _largestTriangle.addPoint(pts.get(0));
+              }
+              return _largestTriangle;
+          }
 
 //				computes one rooted triangle with root in the first point of the convex hull
-            ia = 0;
-            area = 0;
-            triArea = 0;
-            for(ib=1; ib <= numPts-2; ib++) {
-                if (ib >= 2) {
-                    ic = ib + 1;
-                }
-                else {
-                    ic = 2;
-                }
-                Object [] res =  compRootedTri (pts, ia, ib, ic, numPts);
-                area = (Double) res[0];
-                ic=(Integer) res[1];
+          ia = 0;
+          area = 0.0;
+          triArea = 0.0;
+          for(ib=1; ib <= numPts-2; ib++) {
+              if (ib >= 2) {
+                  ic = ib + 1;
+              }
+              else {
+                  ic = 2;
+              }
+              var res =  compRootedTri (pts, ia, ib, ic, numPts);
+              area =  res[0];
+              ic= res[1];
 
-                if (area > triArea) {
-                    triArea = area;
-                    ripa = ia;
-                    ripb = ib;
-                    ripc = ic;
-                }
-            } // ripa, ripb and ripc are the indexes of the points of the rooted triangle
+              if (area > triArea) {
+                  triArea = area;
+                  ripa = ia;
+                  ripb = ib;
+                  ripc = ic;
+              }
+          } // ripa, ripb and ripc are the indexes of the points of the rooted triangle
 
 
 //				computes other triangles and choose the largest one
-            double finalArea = triArea;
-            int pf0, pf1, pf2;   // indexes of the final points
-            int fipa=0, fipb=0, fipc=0;
-            int ib0;
-            pf0 = ripa;
-            pf1 = ripb;
-            pf2 = ripc;
+          double finalArea = triArea;
+          int pf0, pf1, pf2;   // indexes of the final points
+          int fipa=0, fipb=0, fipc=0;
+          int ib0;
+          pf0 = ripa;
+          pf1 = ripb;
+          pf2 = ripc;
 
-            for(ia = ripa+1; ia <= ripb; ia++) {
-                triArea = 0;
-                if (ia == ripb) {
-                    ib0 = ripb + 1;
-                }
-                else {
-                    ib0 = ripb;
-                }
-                area = 0;
-                for(ib = ib0; ib <= ripc; ib++) {
-                    if (ib == ripc) {
-                        ic = ripc + 1;
-                    }
-                    else {
-                        ic = ripc;
-                    }
-                    Object [] res = compRootedTri (pts, ia, ib, ic, numPts);
-                    area = (Double) res[0];
-                    ic=(Integer) res[1];
+          for(ia = ripa+1; ia <= ripb; ia++) {
+              triArea = 0.0;
+              if (ia == ripb) {
+                  ib0 = ripb + 1;
+              }
+              else {
+                  ib0 = ripb;
+              }
+              area = 0.0;
+              for(ib = ib0; ib <= ripc; ib++) {
+                  if (ib == ripc) {
+                      ic = ripc + 1;
+                  }
+                  else {
+                      ic = ripc;
+                  }
+                  var res = compRootedTri (pts, ia, ib, ic, numPts);
+                  area =  res[0];
+                  ic= res[1];
 
-                    if (area > triArea) {
-                        triArea = area;
-                        fipa = ia;
-                        fipb = ib;
-                        fipc = ic;
-                    }
-                }
-                if(triArea > finalArea) {
-                    finalArea = triArea;
-                    pf0 = fipa;
-                    pf1 = fipb;
-                    pf2 = fipc;
-                }
-            }
+                  if (area > triArea) {
+                      triArea = area;
+                      fipa = ia;
+                      fipb = ib;
+                      fipc = ic;
+                  }
+              }
+              if(triArea > finalArea) {
+                  finalArea = triArea;
+                  pf0 = fipa;
+                  pf1 = fipb;
+                  pf2 = fipc;
+              }
+          }
 
-            // Tranfer the points to a polygon
-            _largestTriangle = new CIPolygon();
-            _largestTriangle.addPoint((CIPoint)pts.get(pf0));
-            _largestTriangle.addPoint((CIPoint)pts.get(pf1));
-            _largestTriangle.addPoint((CIPoint)pts.get(pf2));
-            _largestTriangle.addPoint((CIPoint)pts.get(pf0));
+          // Tranfer the points to a polygon
+          _largestTriangle = new Polygon();
+          _largestTriangle.add(pts[pf0]);
+          _largestTriangle.add(pts[pf1]);
+          _largestTriangle.add(pts[pf2]);
+          _largestTriangle.add(pts[pf0]);
         }
         return _largestTriangle;
     }
@@ -361,17 +523,20 @@ class Scribble implements List<Stroke>{
                     convexHull[0]]);
             }
             else {  // ok it's normal :-)
+                var minx,maxx,miny,maxy,minxp,maxxp,minyp,maxyp,
+                  min_area,p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y;
                 for(int i=0; i < convexHull.length - 1; i++) {
+                    
                     for(int a=0; a < convexHull.length; a++) { 
 
-                        var v1 = new Vector(convexHull[i], convexHull[i+1]);
-                        var v2 = new Vector(convexHull[i], convexHull[a]);
+                        var v1 = new Helper.Vector(convexHull[i], convexHull[i+1]);
+                        var v2 = new Helper.Vector(convexHull[i], convexHull[a]);
                         var ang = Helper.angle(v1, v2);
 
                         var dis = v2.length;
                         var xx = dis*Math.cos(ang);
                         var yy = dis*Math.sin(ang);
-
+                        
                         if(a==0) {
                             minx=maxx=xx;
                             miny=maxy=yy;
@@ -405,19 +570,19 @@ class Scribble implements List<Stroke>{
                         convexHull[i],
                         convexHull[i+1],
                         convexHull[maxxp]);
-
+                    var ch = convexHull;
                     var paux = new Point(convexHull[i].x + 100, convexHull[i].y);
-                    var v3= new Vector(convexHull[i], paux);
-                    var v4= new Vector(convexHull[i], convexHull[i+1]);
-                    ang = Helper.angle(v3, v4);
-
+                    var v3= new Helper.Vector(convexHull[i], paux);
+                    var v4= new Helper.Vector(convexHull[i], convexHull[i+1]);
+                    var ang = Helper.angle(v3, v4);
+                    num M_PI_2 = Math.PI / 2;
                     var paux1 = new Point(p1.x+100*Math.cos(ang+M_PI_2), p1.y+100*Math.sin(ang+M_PI_2));
                     var paux2 = new Point(p2.x+100*Math.cos(ang+M_PI_2), p2.y+100*Math.sin(ang+M_PI_2));
 
                     var p3 = Helper.closest(p2,paux2, convexHull[maxyp]);
                     var p4 = Helper.closest(p1,paux1, convexHull[maxyp]);
 
-                    area = Helper.quadArea(p1,p2,p3,p4);
+                    num area = Helper.quadArea(p1,p2,p3,p4);
 
                     if ((i==0)||(area < min_area))
                     {
@@ -459,7 +624,7 @@ class Scribble implements List<Stroke>{
     int get ptsInSmallTri () {
         int empty = 0; // number of points inside the triangle
 
-        var tri = smallTriangle();
+        var tri = smallTriangle;
         
         var m = new List<double>(3);
         var x = new List<double>(3);
@@ -469,17 +634,16 @@ class Scribble implements List<Stroke>{
         for(var i = 0; i < 3; i++) { 
             dx = tri[i].x - tri[(i + 1) % 3].x;
             if (dx == 0) {
-                m[i] = Number.MAX_VALUE;
+                m[i] = double.INFINITY;
                 continue;
             }
             dy = tri[i].y - tri[(i + 1) % 3].y;
             m[i] = dy / dx;
         }
 
-        
-        this.forEach((stroke) {
-            stroke.forEach((cp) {
-                inter = 0;
+        for (var stroke in this){
+          for (var cp in stroke){
+                var inter = 0;
                 if (cp.x >= tri[0].x && cp.x >= tri[1].x && cp.x >= tri[2].x) {
                     continue;
                 }
@@ -497,7 +661,7 @@ class Scribble implements List<Stroke>{
                     if (m[i] == 0) {
                         continue;
                     }
-                    if (m[i] >= Number.MAX_VALUE) {
+                    if (m[i] >= double.INFINITY) {
                         x[i] = tri[i].x;
                         if (x[i] >= cp.x) {
                             inter++;
@@ -514,16 +678,16 @@ class Scribble implements List<Stroke>{
                     empty++;
                 }
                 
-            });
-        });
+            }
+        }
 
         return empty;
     }
 
 
     /*----------------------------------------------------------------------------+
-          | Description: Return the number of points of the scribble
-          +----------------------------------------------------------------------------*/
+    | Description: Return the number of points of the scribble
+    +----------------------------------------------------------------------------*/
     int get numPoints() {
         int nPoints;
         this.forEach((stroke) => nPoints += stroke.length );
@@ -531,6 +695,7 @@ class Scribble implements List<Stroke>{
     }
 
 
+    
    
     /*----------------------------------------------------------------------------+
           | Description: Computes a small triangle that is 60% of the largest triangle.
@@ -551,7 +716,7 @@ class Scribble implements List<Stroke>{
             t1 = new Point( m3.x + (p1.x - m3.x)*0.6,
                             m3.y + (p1.y - m3.y)*0.6),
             t2 = new Point( m1.x + (p2.x - m1.x)*0.6,
-                            m1.y + (p2.y - m1.y)*0.6);
+                            m1.y + (p2.y - m1.y)*0.6),
             t3 = new Point( m2.x + (p3.x - m2.x)*0.6,
                             m2.y + (p3.y - m2.y)*0.6);
 

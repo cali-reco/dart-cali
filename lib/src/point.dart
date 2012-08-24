@@ -13,6 +13,3 @@ class Point {
 	}
 }
 
-class Vector extends Point {
-	Vector(num x, num y) : super(x,y);
-}

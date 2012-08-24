@@ -23,4 +23,6 @@
 #source('src/circle.dart');
 #source('src/rectangle.dart');
 #source('src/line.dart');
+#source('src/triangle.dart');
 #source('src/recognizer.dart');
+

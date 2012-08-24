@@ -2,10 +2,10 @@ class Rectangle extends Shape {
 
     List<Point> _points;
 
-    Rectangle([boolean rotated = true]) 
+    Rectangle([bool rotated = true]) 
         :   super("Rectangle",rotated),
             _points = new List<Point>(4) {
-        
+
         if (rotated) {
             _features = new Features([
                 [Evaluate.Ach_Aer, 0.75, 0.85, 1, 1], // separate from diamonds
