@@ -19,7 +19,10 @@ class Line extends Shape {
 	 */
 	setUp(Scribble sc) {
 		this.scribble = sc;
-		_points = sc.enclosingRect.points;
+		_points = [];
+		_points.add(sc.enclosingRect.points[0]);
+		_points.add(sc.enclosingRect.points[2]);
+    
 	}
 
 	

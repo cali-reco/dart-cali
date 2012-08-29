@@ -15,17 +15,17 @@ class Recognizer {
 
   addAllShapes([bool rotated = true] ) {
       //  Commands 
-      //_shapesList.add(new Delete());
+    //shapes.add(new Delete());
       //_shapesList.add(new CIWavyLine());
       //_shapesList.add(new CICopy());
       //_shapesList.add(new CIMove());
       //_shapesList.add(new CICross());
       
       // Shapes 
-      //_shapesList.add(new Line(rotated));
-      //_shapesList.add(new Triangle(rotated));
-      //_shapesList.add(new Rectangle(rotated));
-      //_shapesList.add(new Circle(rotated));
+    shapes.add(new Line(rotated));
+    shapes.add(new Triangle(rotated));
+    shapes.add(new Rectangle(rotated));
+    shapes.add(new Circle(rotated));
       //_shapesList.add(new CIEllipse(rotated));
       //_shapesList.add(new CIDiamond(rotated));
       //_shapesList.add(new CIArrow(rotated));

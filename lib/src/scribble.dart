@@ -412,10 +412,10 @@ class Scribble implements List<Stroke>{
           if (numPts <= 3) {
               _largestTriangle = new Polygon();
               for (i=0; i < numPts; i++) {
-                  _largestTriangle.addPoint(pts.get(i));
+                  _largestTriangle.add(pts[i]);
               }
               for (i= numPts; i < 4; i++) {
-                  _largestTriangle.addPoint(pts.get(0));
+                  _largestTriangle.add(pts[0]);
               }
               return _largestTriangle;
           }
