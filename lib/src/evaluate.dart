@@ -1,5 +1,5 @@
 #library("evaluate");
-
+#import('dart:math', prefix:'Math');
 #import('helper.dart', prefix:'Helper');
 
 typedef num EvaluationFn(scribble);

@@ -2,8 +2,10 @@
 
 #import('src/helper.dart', prefix:'Helper');
 #import('src/evaluate.dart', prefix:'Evaluate');
+#import('dart:math', prefix:'Math');
 
 #source('src/ordered.dart');
+
 
 #source('src/point.dart');
 #source('src/stroke.dart');

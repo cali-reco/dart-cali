@@ -133,9 +133,6 @@ class Scribble implements List<Stroke>{
                 ordedPoints[np-1],
                 ordedPoints[0]]);
 
-            print("convexhull $_convexHull");
-            print("oerderPoints $ordedPoints");
-
             // try to push all but the first point
             var nc  = _convexHull.length;
            
@@ -152,8 +149,7 @@ class Scribble implements List<Stroke>{
                     nc--;
                 }
             }
-                
-            print("convexhull full $_convexHull");
+
             //_convexHull = filter(@_convexHull) # reduce the number of points
         }
         return _convexHull;

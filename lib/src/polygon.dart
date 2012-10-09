@@ -32,7 +32,6 @@ class Polygon implements List<Point> {
 	    	_area /= 2;
 	    	
       }
-      print("area $_area");
       return _area.abs();
     }
 
@@ -51,7 +50,6 @@ class Polygon implements List<Point> {
                 _perim *= 2;
             }
         }
-        print("perimeter $_perim");
         return _perim;
     }
 

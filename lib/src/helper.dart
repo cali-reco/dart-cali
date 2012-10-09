@@ -1,4 +1,5 @@
 #library("helper");
+#import('dart:math', prefix:'Math');
 #source("point.dart");
 var PRECISION = 1e-6;
 
