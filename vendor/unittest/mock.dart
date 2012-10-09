@@ -38,12 +38,12 @@ _MockFailureHandler _mockFailureHandler = null;
 /**
  * [_noArg] is a sentinel value representing no argument.
  */
-final _noArg = const _Sentinel();
+const _noArg = const _Sentinel();
 
 /** The ways in which a call to a mock method can be handled. */
-final RETURN = 0;
-final THROW = 1;
-final PROXY = 2;
+const RETURN = 0;
+const THROW = 1;
+const PROXY = 2;
 
 /**
  * The behavior of a method call in the mock library is specified

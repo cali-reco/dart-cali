@@ -44,7 +44,7 @@ class _IsNotNull extends BaseMatcher {
 }
 
 /** A matcher that matches the Boolean value true. */
-final Matcher isTrue = const _IsTrue();
+const Matcher isTrue = const _IsTrue();
 
 /** A matcher that matches anything except the Boolean value true. */
 final Matcher isFalse = const _IsFalse();
@@ -291,7 +291,7 @@ class _Throws extends BaseMatcher {
     try {
       item();
       return false;
-    } catch (final e) {
+    } catch (e) {
       return _matcher == null || _matcher.matches(e);
     }
   }
@@ -324,7 +324,7 @@ class _ReturnsNormally extends BaseMatcher {
     try {
       f();
       return true;
-    } catch (final e) {
+    } catch (e) {
       return false;
     }
   }
@@ -366,7 +366,7 @@ class _ReturnsNormally extends BaseMatcher {
 }
 
 /** A matcher for BadNumberFormatExceptions. */
-final isBadNumberFormatException = const _BadNumberFormatException();
+const isBadNumberFormatException = const _BadNumberFormatException();
 
 /** A matcher for functions that throw BadNumberFormatException */
 final Matcher throwsBadNumberFormatException =
@@ -378,7 +378,7 @@ class _BadNumberFormatException extends _ExceptionMatcher {
 }
 
 /** A matcher for Exceptions. */
-final isException = const _Exception();
+const isException = const _Exception();
 
 /** A matcher for functions that throw Exception */
 final Matcher throwsException = const _Throws(isException);
@@ -389,7 +389,7 @@ class _Exception extends _ExceptionMatcher {
 }
 
 /** A matcher for IllegalArgumentExceptions. */
-final isIllegalArgumentException = const _IllegalArgumentException();
+const isIllegalArgumentException = const _IllegalArgumentException();
 
 /** A matcher for functions that throw IllegalArgumentException */
 final Matcher throwsIllegalArgumentException =
@@ -401,7 +401,7 @@ class _IllegalArgumentException extends _ExceptionMatcher {
 }
 
 /** A matcher for IllegalJSRegExpExceptions. */
-final isIllegalJSRegExpException = const _IllegalJSRegExpException();
+const isIllegalJSRegExpException = const _IllegalJSRegExpException();
 
 /** A matcher for functions that throw IllegalJSRegExpException */
 final Matcher throwsIllegalJSRegExpException =
@@ -413,7 +413,7 @@ class _IllegalJSRegExpException extends _ExceptionMatcher {
 }
 
 /** A matcher for IndexOutOfRangeExceptions. */
-final isIndexOutOfRangeException = const _IndexOutOfRangeException();
+const isIndexOutOfRangeException = const _IndexOutOfRangeException();
 
 /** A matcher for functions that throw IndexOutOfRangeException */
 final Matcher throwsIndexOutOfRangeException =
@@ -425,7 +425,7 @@ class _IndexOutOfRangeException extends _ExceptionMatcher {
 }
 
 /** A matcher for NoSuchMethodExceptions. */
-final isNoSuchMethodException = const _NoSuchMethodException();
+const isNoSuchMethodException = const _NoSuchMethodException();
 
 /** A matcher for functions that throw NoSuchMethodException */
 final Matcher throwsNoSuchMethodException =
@@ -437,7 +437,7 @@ class _NoSuchMethodException extends _ExceptionMatcher {
 }
 
 /** A matcher for NotImplementedExceptions. */
-final isNotImplementedException = const _NotImplementedException();
+const isNotImplementedException = const _NotImplementedException();
 
 /** A matcher for functions that throw Exception */
 final Matcher throwsNotImplementedException =
@@ -449,7 +449,7 @@ class _NotImplementedException extends _ExceptionMatcher {
 }
 
 /** A matcher for NullPointerExceptions. */
-final isNullPointerException = const _NullPointerException();
+const isNullPointerException = const _NullPointerException();
 
 /** A matcher for functions that throw NotNullPointerException */
 final Matcher throwsNullPointerException =
@@ -461,7 +461,7 @@ class _NullPointerException extends _ExceptionMatcher {
 }
 
 /** A matcher for UnsupportedOperationExceptions. */
-final isUnsupportedOperationException = const _UnsupportedOperationException();
+const isUnsupportedOperationException = const _UnsupportedOperationException();
 
 /** A matcher for functions that throw UnsupportedOperationException */
 final Matcher throwsUnsupportedOperationException =
@@ -502,7 +502,7 @@ class _HasLength extends BaseMatcher {
         return mismatchDescription.add(' with length of ').
             addDescriptionOf(item.length);
       }
-    } catch (var e) {
+    } catch (e) {
       return mismatchDescription.add(' has no length property');
     }
   }

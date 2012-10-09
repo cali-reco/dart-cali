@@ -207,9 +207,9 @@ final _UNCAUGHT_ERROR = 3;
 int _state = _UNINITIALIZED;
 String _uncaughtErrorMessage = null;
 
-final _PASS  = 'pass';
-final _FAIL  = 'fail';
-final _ERROR = 'error';
+const _PASS  = 'pass';
+const _FAIL  = 'fail';
+const _ERROR = 'error';
 
 /** If set, then all other test cases will be ignored. */
 TestCase _soloTest;
@@ -224,7 +224,7 @@ void expectThrow(function, [bool callback(exception)]) {
   bool threw = false;
   try {
     function();
-  } catch (var e) {
+  } catch (e) {
     threw = true;
 
     // Also let the callback look at it.
@@ -309,7 +309,7 @@ class _Sentinel {
 
 // TODO(sigmund): make a singleton const field when frog supports passing those
 // as default values to named arguments.
-final _sentinel = const _Sentinel();
+const _sentinel = const _Sentinel();
 
 /** Simulates spread arguments using named arguments. */
 // TODO(sigmund): remove this class and simply use a closure with named
@@ -369,8 +369,8 @@ class _SpreadArgsHelper {
     }
   }
 
-  invoke([arg0 = _sentinel, arg1 = _sentinel, arg2 = _sentinel,
-          arg3 = _sentinel, arg4 = _sentinel]) {
+  invoke({arg0 : _sentinel, arg1 : _sentinel, arg2 : _sentinel,
+          arg3 : _sentinel, arg4 : _sentinel}) {
     return guardAsync(() {
       ++_calls;
       if (!_shouldCallBack()) {
@@ -669,13 +669,13 @@ _runTests() {
 guardAsync(tryBody, [finallyBody]) {
   try {
     return tryBody();
-  } catch (ExpectException e, var trace) {
+  } on ExpectException catch (e, trace) {
     Expect.isTrue(_currentTest < _tests.length);
     if (_state != _UNCAUGHT_ERROR) {
       _tests[_currentTest].fail(e.message,
           trace == null ? '' : trace.toString());
     }
-  } catch (var e, var trace) {
+  } catch (e, trace) {
     if (_state == _RUNNING_TEST) {
       // If a random exception is thrown from within a test, we consider that
       // a test failure too. A test case implicitly has an expectation that it
