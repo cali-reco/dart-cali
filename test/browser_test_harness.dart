@@ -1,11 +1,9 @@
-#import('../vendor/unittest/html_config.dart');
+#import('package:unittest/html_enhanced_config.dart');
 
 #import('_test_runner.dart');
-#import('_html_test_runner.dart');
 
 main() {
-  useHtmlConfiguration();
-
+  useHtmlEnhancedConfiguration();
   runTests();
-  runHtmlTests();
 }
+

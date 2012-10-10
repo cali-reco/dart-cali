@@ -1,0 +1,9 @@
+name: dart-cali
+version: 0.0.1
+description: >
+  A port of CALI to Dart.
+author:
+- Nelson Silva <nelson.silva@inevo.pt>
+- Tiago Cardoso <tiago.cardoso@inevo.pt>
+dependencies:
+  unittest: { sdk: unittest }
