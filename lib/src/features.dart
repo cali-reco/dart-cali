@@ -1,3 +1,5 @@
+part of cali;
+
 /**
  * This class represents the features that will classify a gesture (shape/command).
  * Notes: It works as a way to simplify the definition of features for each gesture.
@@ -21,7 +23,7 @@ class Features {
     }
 
     num call(Scribble scribble) {
-        if (_nodeList == null) { return; }
+        if (_nodeList == null) { return null; }
         var dom = 1;
         for (var i = 0; i < _nodeList.length; i++) {
           FuzzyNode node = _nodeList[i];

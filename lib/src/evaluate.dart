@@ -1,6 +1,6 @@
-#library("evaluate");
-#import('dart:math', prefix:'Math');
-#import('helper.dart', prefix:'Helper');
+library evaluate;
+import 'dart:math' as Math;
+import 'helper.dart' as Helper;
 
 typedef num EvaluationFn(scribble);
 

@@ -1,4 +1,6 @@
-class Scribble implements List<Stroke>{
+part of cali;
+
+class Scribble extends ListWrapper<Stroke>{
     num _len = 0; // Scribble length
     num _totalSpeed = 0;
     
@@ -10,25 +12,25 @@ class Scribble implements List<Stroke>{
     Polygon _largestTriangle;
     Polygon _largestQuad;
 
-    List<Stroke> _strokes;
-
-    Scribble([List<Stroke> strokes = null] ) 
-        : _strokes = new List<Stroke>() {
-        strokes.forEach(add);
+    Scribble([List<Stroke> strokes] ) 
+        : super([])  {
+        if (?strokes) {
+          strokes.forEach(add);
+        }
     }
 
-    num get avgSpeed() => _totalSpeed / getNumStrokes();
+    num get avgSpeed => _totalSpeed / length;
 
     add(Stroke stroke) {
         _len += stroke.strokeLength;
         _totalSpeed += stroke.drawingSpeed;
-        _strokes.add(stroke);
+        super.add(stroke);
     }
 
-    num get scribbleLength() => _len;
+    num get scribbleLength => _len;
 
     Stroke removeLast() {
-        var strk = _strokes.removeLast();
+        var strk = super.removeLast();
 
         _len -= strk.strokeLength;
         _totalSpeed -= strk.drawingSpeed;
@@ -50,8 +52,7 @@ class Scribble implements List<Stroke>{
       | Notes: Actually it returns a constant value, because the formula used to
       |        the "best" timeout is not very good. We are searching for a better one :-)
       +----------------------------------------------------------------------------*/
-    int getTimeOut()
-    {
+    int get timeOut {
         return 550; // to delete <<<<<<<<<<
         /*
            double avs = getAvgSpeed();
@@ -72,7 +73,7 @@ class Scribble implements List<Stroke>{
       *              a simple filtration to eliminate points that are very close.
       * Output: A polygon that is the convex hull.
       *----------------------------------------------------------------------------*/
-    Polygon get convexHull() {
+    Polygon get convexHull {
 
         // Order all scribble points by angle.
         List ordPoints(Point min) {
@@ -160,7 +161,7 @@ class Scribble implements List<Stroke>{
       * Description: Computes the bounding box of the convex hull.
       * Output: A polygon that is the bounding box.
       *----------------------------------------------------------------------------*/
-    Polygon get boundingBox() {
+    Polygon get boundingBox {
         if (_boundingBox == null) {
             var x1 = convexHull[0].x,
                 y1 = convexHull[0].y,
@@ -208,7 +209,7 @@ class Scribble implements List<Stroke>{
     +---------------------------------------------------------------------------------*/
 
 
-    Polygon get largestQuad() {
+    Polygon get largestQuad {
         
       var pts = convexHull,
         np = convexHull.length;
@@ -393,7 +394,7 @@ class Scribble implements List<Stroke>{
           | Output: A polygon that is the largest triangle.
           | Notes: We used the algorithm described by J.E. Boyce and D.P. Dobkin.
           +----------------------------------------------------------------------------*/
-    Polygon get largestTriangle() { 
+    Polygon get largestTriangle { 
 
         if (_largestTriangle == null) {
           //var pts = convexHull,
@@ -499,7 +500,7 @@ class Scribble implements List<Stroke>{
      * convex hull
      * @return A polygon that is a rotated rectangle.
      */
-    Polygon get enclosingRect() {
+    Polygon get enclosingRect {
         if (_enclosingRect == null) {
 
             if (convexHull.length < 2) {  // is just a point
@@ -606,8 +607,8 @@ class Scribble implements List<Stroke>{
         return _enclosingRect;
     }
 
-    Point get startingPoint() => this[0][0];
-    Point get endingPoint() => last().last();
+    Point get startingPoint => this[0][0];
+    Point get endingPoint => last.last;
 
 
     /*----------------------------------------------------------------------------+
@@ -617,7 +618,7 @@ class Scribble implements List<Stroke>{
           | Notes: Some of the lines commented were used to return a list with the points
           |        inside.
           +----------------------------------------------------------------------------*/
-    int get ptsInSmallTri () {
+    int get ptsInSmallTri {
         int empty = 0; // number of points inside the triangle
 
         var tri = smallTriangle;
@@ -684,7 +685,7 @@ class Scribble implements List<Stroke>{
     /*----------------------------------------------------------------------------+
     | Description: Return the number of points of the scribble
     +----------------------------------------------------------------------------*/
-    int get numPoints() {
+    int get numPoints {
         int nPoints;
         this.forEach((stroke) => nPoints += stroke.length );
         return nPoints;
@@ -698,7 +699,7 @@ class Scribble implements List<Stroke>{
           | Output: A polygon
           | Notes:
           +----------------------------------------------------------------------------*/
-    Polygon get smallTriangle(){
+    Polygon get smallTriangle {
         var tri = largestTriangle,
             p1 = tri[0],
             p2 = tri[1],
@@ -719,21 +720,5 @@ class Scribble implements List<Stroke>{
         return new Polygon([t1, t2, t3, t1]);
     }
 
-
-    // delegates for Collection
-    Iterator<Stroke> iterator() => _strokes.iterator();
-    bool isEmpty() => _strokes.isEmpty();
-    void forEach(void f(Stroke c)) => _strokes.forEach(f);
-    Collection map(f(Stroke c)) => _strokes.map(f);
-    Collection<Stroke> filter(bool f(Stroke c)) => _strokes.filter(f);
-    bool every(bool f(Stroke c)) => _strokes.every(f);
-    bool some(bool f(Stroke c)) => _strokes.some(f);
-    int get length() => _strokes.length;
-
-    // delegates for List
-    Stroke operator [](int index) => _strokes[index];
-    void operator []=(int index, Stroke c) { _strokes[index] = c; }
-    Stroke last() => _strokes.last();
-    List<Stroke> getRange(int start, int length) => _strokes.getRange(start, length);
 }
 	

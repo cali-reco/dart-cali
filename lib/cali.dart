@@ -1,30 +1,30 @@
-#library('cali');
+library cali;
 
-#import('src/helper.dart', prefix:'Helper');
-#import('src/evaluate.dart', prefix:'Evaluate');
-#import('dart:math', prefix:'Math');
+import 'src/helper.dart' as Helper;
+import 'src/evaluate.dart' as Evaluate;
+import 'dart:math' as Math;
 
-#source('src/ordered.dart');
+part 'src/list_wrapper.dart';
+part 'src/ordered.dart';
 
+part 'src/point.dart';
+part 'src/stroke.dart';
+part 'src/polygon.dart';
+part 'src/scribble.dart';
 
-#source('src/point.dart');
-#source('src/stroke.dart');
-#source('src/polygon.dart');
-#source('src/scribble.dart');
+part 'src/fuzzy.dart';
+part 'src/features.dart';
 
-#source('src/fuzzy.dart');
-#source('src/features.dart');
+part 'src/gesture.dart';
+part 'src/shape.dart';
+part 'src/command.dart';
 
-#source('src/gesture.dart');
-#source('src/shape.dart');
-#source('src/command.dart');
+part 'src/unknown.dart';
+part 'src/tap.dart';
 
-#source('src/unknown.dart');
-#source('src/tap.dart');
-
-#source('src/circle.dart');
-#source('src/rectangle.dart');
-#source('src/line.dart');
-#source('src/triangle.dart');
-#source('src/recognizer.dart');
+part 'src/circle.dart';
+part 'src/rectangle.dart';
+part 'src/line.dart';
+part 'src/triangle.dart';
+part 'src/recognizer.dart';
 

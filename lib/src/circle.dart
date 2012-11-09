@@ -1,3 +1,5 @@
+part of cali;
+
 /**
  * Represents a circle. (solid, dashed or bold)
  */
@@ -37,8 +39,8 @@ class Circle extends Shape {
         radius = ((d1+d2)/2/2).floor();
         
         center = new Point(
-            x: (_points[0].x + d2/2).floor(),
-            y: (_points[0].y + d1/2).floor()
+            (_points[0].x + d2/2).floor(),
+            (_points[0].y + d1/2).floor()
         );
     }
 }

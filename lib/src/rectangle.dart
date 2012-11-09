@@ -1,3 +1,5 @@
+part of cali;
+
 class Rectangle extends Shape {
 
     List<Point> _points;

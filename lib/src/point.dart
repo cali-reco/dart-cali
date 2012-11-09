@@ -1,3 +1,5 @@
+part of cali;
+
 class Point {
 	num x;
 	num y;

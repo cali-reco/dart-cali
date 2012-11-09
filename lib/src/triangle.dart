@@ -1,3 +1,5 @@
+part of cali;
+
 class Triangle extends Shape {
 	List<Point> _points;
 	

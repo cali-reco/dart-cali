@@ -1,6 +1,7 @@
-#library("helper");
-#import('dart:math', prefix:'Math');
-#source("point.dart");
+library helper;
+import 'dart:math' as Math;
+import 'package:cali/cali.dart';
+
 var PRECISION = 1e-6;
 
 distance(p1, p2) => Math.sqrt( Math.pow(p2.x-p1.x,2) + Math.pow(p2.y-p1.y,2) );
@@ -97,6 +98,6 @@ class Vector {
   
   Vector(this.start, this.end);
   
-  num get length() => distance(this.start,this.end);
+  num get length => distance(this.start,this.end);
 
 }

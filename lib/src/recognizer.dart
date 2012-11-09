@@ -1,3 +1,5 @@
+part of cali;
+
 class Recognizer {
   List shapes;
   num _alfaCut;
@@ -74,7 +76,7 @@ class Recognizer {
       // Get only the shapes
       var result = ordered.toList();
 
-      if (result.isEmpty()) {
+      if (result.isEmpty) {
           result.add(new Unknown.from(scribble));
       }
       

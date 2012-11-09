@@ -1,3 +1,5 @@
+part of cali;
+
 class Tap extends Command {
 	Point _point;
 

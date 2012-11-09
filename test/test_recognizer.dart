@@ -1,3 +1,5 @@
+part of cali_tests;
+
 class TestRecognizer {
 
   static void run(){

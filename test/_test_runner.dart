@@ -1,11 +1,11 @@
-#library('tests');
+library cali_tests;
 
-#import('package:unittest/unittest.dart');
-#import('package:dart-cali/cali.dart');
+import 'package:unittest/unittest.dart';
+import 'package:cali/cali.dart';
 
-#import('dart:math', prefix:'Math');
+import 'dart:math' as Math;
 
-#source('test_recognizer.dart');
+part 'test_recognizer.dart';
 
 void runTests() {
   TestRecognizer.run();

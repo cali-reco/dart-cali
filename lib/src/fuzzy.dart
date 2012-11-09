@@ -1,3 +1,5 @@
+part of cali;
+
 class FuzzyNode {
     FuzzySet fuzzySet;
     Evaluate.EvaluationFn evaluationFn;

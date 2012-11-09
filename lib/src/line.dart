@@ -1,3 +1,5 @@
+part of cali;
+
 class Line extends Shape {
 	
 	List<Point> _points;
