@@ -21,6 +21,7 @@ part 'src/command.dart';
 
 part 'src/unknown.dart';
 part 'src/tap.dart';
+part 'src/delete.dart';
 
 part 'src/circle.dart';
 part 'src/rectangle.dart';

@@ -17,7 +17,7 @@ class Recognizer {
 
   addAllShapes([bool rotated = true] ) {
       //  Commands 
-    //shapes.add(new Delete());
+    shapes.add(new Delete());
       //_shapesList.add(new CIWavyLine());
       //_shapesList.add(new CICopy());
       //_shapesList.add(new CIMove());

@@ -10,9 +10,9 @@ abstract class Command extends Gesture {
 	num evalLocalFeatures(Scribble scribble, List _shapes) => 1; 
 	
 	num evalGlobalFeatures(Scribble sc) {
-		_dom = _features.evaluate(sc);
+		_dom = _features.call(sc);
 		if (_dom > 0) {
-			_this.scribble = sc;
+			this.scribble = sc;
 		} else { 
 			this.scribble = null;
 		}
