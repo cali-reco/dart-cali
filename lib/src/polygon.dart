@@ -6,8 +6,8 @@ class Polygon extends ListWrapper<Point> {
 
     Polygon([List<Point> points]) : super(points);
 
-    toString() => Strings.join(map((pt) => pt.toString()), ",");
-    
+    toString() => map((pt) => pt.toString()).join(",");
+
     /*----------------------------------------------------------------------------+
     | Description: Computes the area of the polygon, using a general algorithm.
     | Output: the area
@@ -22,9 +22,9 @@ class Polygon extends ListWrapper<Point> {
     		for (int i = 0; i < length - 1; i++) {
 	    	    _area += this[i].x * this[i+1].y - this[i+1].x * this[i].y;
     		}
-	    	
+
 	    	_area /= 2;
-	    	
+
       }
       return _area.abs();
     }
@@ -38,8 +38,8 @@ class Polygon extends ListWrapper<Point> {
           this._perim = 0.0;
             for (int i = 0; i < length - 1; i++) {
                 _perim += Helper.distance(this[i], this[i+1]);
-            }	
-            
+            }
+
             if (length < 3) {
                 _perim *= 2;
             }

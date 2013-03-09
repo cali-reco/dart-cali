@@ -4,9 +4,9 @@ class Rectangle extends Shape {
 
     List<Point> _points;
 
-    Rectangle([bool rotated = true]) 
+    Rectangle([bool rotated = true])
         :   super("Rectangle",rotated),
-            _points = new List<Point>(4) {
+            _points = new List<Point>.fixedLength(4) {
 
         if (rotated) {
             _features = new Features([
@@ -24,12 +24,12 @@ class Rectangle extends Shape {
             ]);
         }
     }
-    
+
     Point getPoint(int i) { return _points[i];}
 
 
     setUp(Scribble sc) {
-        _points = sc.enclosingRect.points;
+        _points = sc.enclosingRect;
     }
 
 }

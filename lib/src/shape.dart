@@ -1,7 +1,7 @@
 part of cali;
 
 abstract class Shape extends Gesture {
-    Features _dashFeature; 
+    Features _dashFeature;
     Features _normalFeature;
     Features _openFeature;
     Features _boldFeature;
@@ -10,10 +10,10 @@ abstract class Shape extends Gesture {
     bool _open = false;
     bool _rotated;
 
-    setUp(Scribble sc);   
-    
+    setUp(Scribble sc);
+
     Shape (String name, [bool rotated = true])
-        : this._rotated = rotated, 
+        : this._rotated = rotated,
           super(name),
           _normalFeature = new Features([
                 [Evaluate.Tl_Pch, 0.83, 0.93]
@@ -28,13 +28,13 @@ abstract class Shape extends Gesture {
           _boldFeature =  new Features([
                 [Evaluate.Tl_Pch, 1.5, 3]
           ]);
-    
-    
-    num evalLocalFeatures(Scribble sc, List shapes) => 1; 
-    
-    bool get isDashed =>_dashed; 
-    bool get isBold =>_bold; 
-    bool get isOpen =>_open; 
+
+
+    num evalLocalFeatures(Scribble sc, List shapes) => 1;
+
+    bool get isDashed =>_dashed;
+    bool get isBold =>_bold;
+    bool get isOpen =>_open;
 
     /*----------------------------------------------------------------------------+
      | Description: Computes the degree of membership for the scribble, taking
@@ -53,16 +53,18 @@ abstract class Shape extends Gesture {
         if (_dom!= 0.0) {
             setUp(sc);
             if (_normalFeature.call(sc)!=0.0) {
-                if (_boldFeature.call(sc)!=0.0)
+                if (_boldFeature.call(sc)!=0.0) {
                     _bold = true;
+                }
             }
             else {
                 _dom *= _dashFeature.call(sc);
-                if (_dom!=0.0)
+                if (_dom!=0.0) {
                     _dashed = true;
+                }
             }
         }
         return _dom;
     }
-    
+
 }

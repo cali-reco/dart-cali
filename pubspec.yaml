@@ -6,4 +6,5 @@ authors:
 - Nelson Silva <nelson.silva@inevo.pt>
 - Tiago Cardoso <tiago.cardoso@inevo.pt>
 dependencies:
-  unittest: { sdk: unittest }
+  browser: any
+  unittest: 0.4.1

@@ -1,11 +1,11 @@
 part of cali;
 
 class Unknown extends Shape {
-	
-	Unknown.from(Scribble sc) : super("Unknown") { 
+
+	Unknown.from(Scribble sc) : super("Unknown") {
 		setUp(sc);
 	}
-	
+
 
 	setUp(Scribble scribble) {
 		this.scribble = scribble;
@@ -13,7 +13,7 @@ class Unknown extends Shape {
 		_bold = false;
 		_open = false;
 		_dom = 1;
-		
+
 		if (this._dashFeature.call(scribble) != 0.0) {
 		  this._dashed = true;
 		}

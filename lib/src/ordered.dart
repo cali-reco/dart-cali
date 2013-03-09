@@ -31,7 +31,7 @@ class OrderedCollection {
       }
     	return null;
     }
-    
+
     getOrderVal(val) {
       for (var e in collection){
         if (e.orderVal == val) {
@@ -39,11 +39,11 @@ class OrderedCollection {
         }
       }
       return null;
-    }    
+    }
 
     List toList() {
 
-		// Order by orderVal    
+		// Order by orderVal
 	    collection.sort( (a, b) {
             if (a.orderVal < b.orderVal) { return -1; }
             if (a.orderVal == b.orderVal) {return 0; }
@@ -51,6 +51,6 @@ class OrderedCollection {
         });
 
 	    // Get only the elements
-	    return collection.map((e) => e.element);
+	    return collection.map((e) => e.element).toList();
     }
 }

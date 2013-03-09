@@ -1,9 +1,9 @@
 part of cali;
 
 class Line extends Shape {
-	
+
 	List<Point> _points;
-	
+
 	Line([bool rotated = true])
 	 : super("Line", rotated) {
 		_normalFeature = new Features([[Evaluate.Tl_Pch, 0.4, 0.45]]);
@@ -15,17 +15,17 @@ class Line extends Shape {
 	}
 
     Point getPoint(int i) =>  _points[i];
-	
+
 	/**
 	 * Computes the points of the recognized line
 	 */
 	setUp(Scribble sc) {
 		this.scribble = sc;
 		_points = [];
-		_points.add(sc.enclosingRect.points[0]);
-		_points.add(sc.enclosingRect.points[2]);
-    
+		_points.add(sc.enclosingRect[0]);
+		_points.add(sc.enclosingRect[2]);
+
 	}
 
-	
+
 }

@@ -19,7 +19,7 @@ class Features {
                 wb = (b == double.INFINITY)? double.INFINITY : bwb-b;
             var fuzzySet = new FuzzySet(a, b, a-awa, wb);
             return new FuzzyNode(fuzzySet, fn);
-        });
+        }).toList();
     }
 
     num call(Scribble scribble) {

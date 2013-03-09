@@ -1,8 +1,9 @@
 library cali;
 
+import 'dart:math' as Math;
+
 import 'src/helper.dart' as Helper;
 import 'src/evaluate.dart' as Evaluate;
-import 'dart:math' as Math;
 
 part 'src/list_wrapper.dart';
 part 'src/ordered.dart';

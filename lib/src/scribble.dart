@@ -3,7 +3,7 @@ part of cali;
 class Scribble extends ListWrapper<Stroke>{
     num _len = 0; // Scribble length
     num _totalSpeed = 0;
-    
+
     Polygon _boundingBox;    // The points are order
     Polygon _convexHull;
     Polygon _largestTriangleOld;
@@ -12,7 +12,7 @@ class Scribble extends ListWrapper<Stroke>{
     Polygon _largestTriangle;
     Polygon _largestQuad;
 
-    Scribble([List<Stroke> strokes] ) 
+    Scribble([List<Stroke> strokes] )
         : super([])  {
         if (?strokes) {
           strokes.forEach(add);
@@ -79,7 +79,7 @@ class Scribble extends ListWrapper<Stroke>{
         List ordPoints(Point min) {
             var ordedPoints = new OrderedCollection(false);
             ordedPoints.insert(min, 0);
-    
+
             this.forEach((stroke) {
                 stroke.forEach((point) {
                     var ang = Helper.theta(min, point);
@@ -136,16 +136,16 @@ class Scribble extends ListWrapper<Stroke>{
 
             // try to push all but the first point
             var nc  = _convexHull.length;
-           
+
             for (var i = 1; i < np; i++) {
                 var pt = ordedPoints[i];
                 if (Helper.left(
-                        _convexHull[_convexHull.length-2], 
-                        _convexHull[_convexHull.length-1], 
+                        _convexHull[_convexHull.length-2],
+                        _convexHull[_convexHull.length-1],
                         pt)) {
                     _convexHull.add(pt);
                     nc++;
-                } else { 
+                } else {
                     _convexHull.removeLast();
                     nc--;
                 }
@@ -167,14 +167,14 @@ class Scribble extends ListWrapper<Stroke>{
                 y1 = convexHull[0].y,
                 x2 = x1,
                 y2 = y1;
-      
+
             convexHull.forEach((point) {
-                if (point.x < x1) { x1 = point.x; }      
-                if (point.x > x2) { x2 = point.x; } 
-                if (point.y < y1) { y1 = point.y; }  
-                if (point.y > y2) { y2 = point.y; }  
-            }); 
-            
+                if (point.x < x1) { x1 = point.x; }
+                if (point.x > x2) { x2 = point.x; }
+                if (point.y < y1) { y1 = point.y; }
+                if (point.y > y2) { y2 = point.y; }
+            });
+
             // Tranfer the points to a polygon
             _boundingBox = new Polygon([
                 new Point(x1, y1),
@@ -189,9 +189,9 @@ class Scribble extends ListWrapper<Stroke>{
 
     // Selects the point with the lowest y
     findLowest() {
-    
+
         var min = this[0][0]; // gets the first point of the first stroke
-        
+
         this.forEach((stroke) {
             stroke.forEach((point) {
                 if ( (point.y < min.y) || (point.y == min.y && point.x > min.x) ) {
@@ -210,24 +210,24 @@ class Scribble extends ListWrapper<Stroke>{
 
 
     Polygon get largestQuad {
-        
+
       var pts = convexHull,
         np = convexHull.length;
-  
+
       num ripa = 0, ripb = 0, ripc = 0; // indexes for rooted triangle
-  
+
       if (_largestQuad == null) {
         if (np <= 5){
           _largestQuad = new Polygon();
-          for(var i = 0; i < np; i++){  
+          for(var i = 0; i < np; i++){
             _largestQuad.add(pts[i]);
           }
-          for (var i = np; i < 5; i++){ 
+          for (var i = np; i < 5; i++){
             _largestQuad.add(pts[0]);
           }
           return _largestQuad;
         }
-    
+
       // computes one rooted triangle
         num ia = 0, area = 0, triArea = 0;
         for (num ib = 1; ib <= np-2; ib++){ // in [1..np-2]
@@ -244,15 +244,15 @@ class Scribble extends ListWrapper<Stroke>{
             triArea = area;
             ripa = ia;
             ripb = ib;
-            ripc = ic; 
+            ripc = ic;
           }
         }
-    
-    
+
+
         // computes the rooted quadrilateral based on a rooted triangle
         num fipa = 0, fipb = 0, fipc = 0, fipd = 0, // indexes for final values
           id = 0, ib0 = 0, quadArea = 0, ic0 = 0;
-    
+
         for (num ib = ripa + 1; ib <= ripb; ib++){ // ib in [ripa+1..ripb]
           if (ib == ripb){
             ic0 = ripb + 1;
@@ -279,7 +279,7 @@ class Scribble extends ListWrapper<Stroke>{
             }
           }
         }
-        
+
         // computes other quadrilaterals and choose the largest one
         num finalArea = quadArea,
         pf0 = fipa,
@@ -290,7 +290,7 @@ class Scribble extends ListWrapper<Stroke>{
         ripb = fipb;
         ripc = fipc;
         num ripd = fipd;
-    
+
         for (num ia = ripa+1; ia <= ripb; ia++){ //ia in [ripa+1..ripb]
           if (ia == ripb){
             ib0 = ripb + 1;
@@ -305,7 +305,7 @@ class Scribble extends ListWrapper<Stroke>{
             if (ib == ripc){
               ic0 = ripc + 1;
             }
-            else{ 
+            else{
               ic0 = ripc;
             }
             for (num ic = ic0; ic <= ripd; ic++){ //ic in [ic0..ripd]
@@ -313,7 +313,7 @@ class Scribble extends ListWrapper<Stroke>{
                 id = ripd + 1;
               }
               else{
-                id = ripd;   
+                id = ripd;
               }
               var res = compRootedQuad(pts, ia, ib, ic, id, np);
               area = res[0];
@@ -344,14 +344,14 @@ class Scribble extends ListWrapper<Stroke>{
         _largestQuad.add(convexHull[pf0]);
       }
       return _largestQuad;
-    } 
-      
+    }
+
     List compRootedQuad(pts,ripa,ripb,ripc,ripd,np){
       num trigArea = 0;
-      // computes one rooted triangle        
+      // computes one rooted triangle
       var pa = pts[ripa],
         pb = pts[ripb],
-        pc = pts[ripc]; 
+        pc = pts[ripc];
       num area;
       num new_ripd = ripd;
       for (num id = ripd; id < np - 1; id++){ // id in [ripd...np - 1]
@@ -366,11 +366,11 @@ class Scribble extends ListWrapper<Stroke>{
       }
       return [trigArea, new_ripd];
     }
-    
+
     List compRootedTri(List pts, int ripa, int ripb, int ripc,int np) {
       double trigArea = 0.0;
 
-      //  computes one rooted triangle        
+      //  computes one rooted triangle
       int ia = ripa,
           ib = ripb;
 
@@ -387,14 +387,14 @@ class Scribble extends ListWrapper<Stroke>{
         }
       }
       return [trigArea, ripc];
-    }  
-      
+    }
+
     /*----------------------------------------------------------------------------+
           | Description: Computes the largest triangle that fits inside the convex hull
           | Output: A polygon that is the largest triangle.
           | Notes: We used the algorithm described by J.E. Boyce and D.P. Dobkin.
           +----------------------------------------------------------------------------*/
-    Polygon get largestTriangle { 
+    Polygon get largestTriangle {
 
         if (_largestTriangle == null) {
           //var pts = convexHull,
@@ -404,7 +404,7 @@ class Scribble extends ListWrapper<Stroke>{
           double area, triArea;
 
           int numPts = convexHull.length;
-          List pts = _convexHull.points;
+          List pts = _convexHull;
 
           if (numPts <= 3) {
               _largestTriangle = new Polygon();
@@ -523,8 +523,8 @@ class Scribble extends ListWrapper<Stroke>{
                 var minx,maxx,miny,maxy,minxp,maxxp,minyp,maxyp,
                   min_area,p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y;
                 for(int i=0; i < convexHull.length - 1; i++) {
-                    
-                    for(int a=0; a < convexHull.length; a++) { 
+
+                    for(int a=0; a < convexHull.length; a++) {
 
                         var v1 = new Helper.Vector(convexHull[i], convexHull[i+1]);
                         var v2 = new Helper.Vector(convexHull[i], convexHull[a]);
@@ -533,7 +533,7 @@ class Scribble extends ListWrapper<Stroke>{
                         var dis = v2.length;
                         var xx = dis*Math.cos(ang);
                         var yy = dis*Math.sin(ang);
-                        
+
                         if(a==0) {
                             minx=maxx=xx;
                             miny=maxy=yy;
@@ -622,13 +622,13 @@ class Scribble extends ListWrapper<Stroke>{
         int empty = 0; // number of points inside the triangle
 
         var tri = smallTriangle;
-        
-        var m = new List<double>(3);
-        var x = new List<double>(3);
+
+        var m = new List<double>.fixedLength(3);
+        var x = new List<double>.fixedLength(3);
 
         double dx, dy;
-        
-        for(var i = 0; i < 3; i++) { 
+
+        for(var i = 0; i < 3; i++) {
             dx = tri[i].x - tri[(i + 1) % 3].x;
             if (dx == 0) {
                 m[i] = double.INFINITY;
@@ -674,7 +674,7 @@ class Scribble extends ListWrapper<Stroke>{
                 if ((inter%2)!=0) {
                     empty++;
                 }
-                
+
             }
         }
 
@@ -692,8 +692,8 @@ class Scribble extends ListWrapper<Stroke>{
     }
 
 
-    
-   
+
+
     /*----------------------------------------------------------------------------+
           | Description: Computes a small triangle that is 60% of the largest triangle.
           | Output: A polygon
@@ -721,4 +721,4 @@ class Scribble extends ListWrapper<Stroke>{
     }
 
 }
-	
+

@@ -19,16 +19,18 @@ Vm_Hbb(sc) {
 }
 Hbb_Wbb(sc) {
     var pbb = sc.boundingBox().getPoints();
-    
+
     var dw = pbb[1].x - pbb[0].x;
     var dh = pbb[2].y - pbb[1].y;
 
-    if (dw == 0 || dh == 0)
+    if (dw == 0 || dh == 0) {
         return 0;
+    }
 
     var tmp = (dh / dw).abs;
-    if (tmp > 1)
+    if (tmp > 1) {
         tmp = 1 / tmp;
+    }
     return tmp;
 }
 Her_Wer(sc) {
@@ -37,12 +39,14 @@ Her_Wer(sc) {
     var dw = Helper.distance(pbb[2], pbb[1]);
     var dh = Helper.distance(pbb[1], pbb[0]);
 
-    if (dw == 0 || dh == 0)
+    if (dw == 0 || dh == 0) {
         return 0;
+    }
 
     var tmp = dh / dw;
-    if (tmp > 1)
+    if (tmp > 1) {
         tmp = 1 / tmp;
+    }
     return tmp;
 }
 
@@ -55,7 +59,7 @@ Alt_Abb(sc) => sc.largestTriangle.area / sc.boundingBox.area;
 Alq_Ach(sc) => sc.largestQuad.area / sc.convexHull.area;
 Alq_Aer(sc) => sc.largestQuad.area / sc.enclosingRect.area;
 Alt_Alq(sc) => sc.largestTriangle.area / sc.largestQuad.area;
-    
+
 // Perimeter ratios
 Plt_Pch(sc) => sc.largestTriangle.perimeter / sc.convexHull.perimeter;
 Pch_Per(sc) => sc.convexHull.perimeter / sc.enclosingRect.perimeter;
