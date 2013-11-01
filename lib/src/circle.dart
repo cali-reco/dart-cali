@@ -15,14 +15,12 @@ class Circle extends Shape {
     Circle ([bool rotated])
         :   super("Circle", rotated),
             center = new Point(),
-            _points = new List<Point>.fixedLength(4) {
+            _points = new List<Point>(4) {
         _features = new Features([
             [Evaluate.Pch2_Ach, 12.5, 12.5, 13.2, 13.5],
             [Evaluate.Hollowness, 0.0, 0.0, 0.0, 0.0]
           ]);
     }
-
-
 
     setUp(Scribble sc) {
         this.scribble = sc;
@@ -36,7 +34,7 @@ class Circle extends Shape {
             Math.pow(_points[2].x-_points[1].x,2) +
             Math.pow(_points[2].y-_points[1].y,2));
 
-        radius = ((d1+d2)/2/2).floor();
+        radius = ((d1+d2)/2/2).floor() * 1.0;
 
         center = new Point(
             (_points[0].x + d2/2).floor(),

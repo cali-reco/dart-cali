@@ -6,7 +6,7 @@ class Rectangle extends Shape {
 
     Rectangle([bool rotated = true])
         :   super("Rectangle",rotated),
-            _points = new List<Point>.fixedLength(4) {
+            _points = new List<Point>(4) {
 
         if (rotated) {
             _features = new Features([

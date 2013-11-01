@@ -14,7 +14,7 @@ class Scribble extends ListWrapper<Stroke>{
 
     Scribble([List<Stroke> strokes] )
         : super([])  {
-        if (?strokes) {
+        if (strokes != null) {
           strokes.forEach(add);
         }
     }
@@ -623,8 +623,8 @@ class Scribble extends ListWrapper<Stroke>{
 
         var tri = smallTriangle;
 
-        var m = new List<double>.fixedLength(3);
-        var x = new List<double>.fixedLength(3);
+        var m = new List<double>(3);
+        var x = new List<double>(3);
 
         double dx, dy;
 

@@ -5,7 +5,7 @@ class Triangle extends Shape {
 
 	Triangle([bool rotated = true])
 		:	super("Triangle",rotated),
-			_points = new List<Point>.fixedLength(3)
+			_points = new List<Point>(3)
 			{
 		  this._features = new Features([
 		                            [Evaluate.Alt_Ach, 0.67, 0.77, 1, 1],
