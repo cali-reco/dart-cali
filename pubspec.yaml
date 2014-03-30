@@ -7,4 +7,4 @@ authors:
 - Tiago Cardoso <tiago.cardoso@inevo.pt>
 dependencies:
   browser: any
-  unittest: 0.8.1
+  unittest: '>=0.9.0 <0.11.0'

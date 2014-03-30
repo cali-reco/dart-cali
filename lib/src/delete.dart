@@ -6,7 +6,7 @@ class Delete extends Command {
 
   Delete(): super("Delete") {
 
-    _point = new Point(0,0);
+    _point = new Point(0.0, 0.0);
 
     _features = new Features([
       [Evaluate.Her_Wer,0.06, 0.08, 1.0, 1.0],

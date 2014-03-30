@@ -37,8 +37,8 @@ class Circle extends Shape {
         radius = ((d1+d2)/2/2).floor() * 1.0;
 
         center = new Point(
-            (_points[0].x + d2/2).floor(),
-            (_points[0].y + d1/2).floor()
+            _points[0].x + d2/2,
+            _points[0].y + d1/2
         );
     }
 }

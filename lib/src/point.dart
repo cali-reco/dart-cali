@@ -1,11 +1,11 @@
 part of cali;
 
 class Point {
-	num x;
-	num y;
+	double x;
+	double y;
 	num time;
 
-	Point([this.x = 0, this.y = 0, this.time = 0]);
+	Point([this.x = 0.0, this.y = 0.0, this.time = 0]);
 
 	toString() => "[$x, $y]";
 

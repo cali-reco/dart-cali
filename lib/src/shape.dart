@@ -45,7 +45,7 @@ abstract class Shape extends Gesture {
      | Notes: This method is the same for all shapes.
      +----------------------------------------------------------------------------*/
     num evalGlobalFeatures(Scribble sc) {
-        _dom = _features.call(sc);
+        _dom = _features(sc);
         _dashed = false;
         _bold = false;
         _open = false;

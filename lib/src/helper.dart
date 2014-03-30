@@ -85,7 +85,7 @@ closest(p1, p2, p3) {
 		x = (b2 - b1) / (m + 1/m),
 		y = m * x + b1;
 
-	return new Point(x.round(), y.round());
+	return new Point(x, y);
 }
 
 quadArea(p1, p2, p3, p4) {

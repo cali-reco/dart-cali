@@ -8,7 +8,7 @@ class TestRecognizer {
      test('Recognizes a Tap', () {
         var recognizer = new Recognizer();
       	var stroke = new Stroke.from([
-          [0,0],[1,1]
+          [0.0, 0.0],[1.0, 1.0]
         ]);
 
         var shapes = recognizer.recognize(new Scribble([stroke]));
@@ -22,7 +22,7 @@ class TestRecognizer {
         recognizer.addShape(new Line());
 
         var stroke = new Stroke.from([
-          [0,0], [50,50], [100,100], [150,150], [200,200]
+          [0.0, 0.0], [50.0, 50.0], [100.0, 100.0], [150.0, 150.0], [200.0, 200.0]
         ]);
 
         var shapes = recognizer.recognize(new Scribble([stroke]));
@@ -54,7 +54,7 @@ class TestRecognizer {
         recognizer.addShape(new Rectangle());
 
         var stroke = new Stroke.from([
-                                      [-50,50], [50,50], [50,-50], [-50,-50],[-50,50]
+                                      [-50.0, 50.0], [50.0, 50.0], [50.0, -50.0], [-50.0, -50.0],[-50.0, 50.0]
                                       ]);
         var shapes = recognizer.recognize(new Scribble([stroke]));
         expect(shapes.length, equals(1));
@@ -66,7 +66,7 @@ class TestRecognizer {
         recognizer.addShape(new Triangle());
 
         var stroke = new Stroke.from([
-                                      [-50,50], [50,50], [-50,-50],[-50,50]
+                                      [-50.0, 50.0], [50.0, 50.0], [-50.0, -50.0], [-50.0, 50.0]
                                       ]);
         var shapes = recognizer.recognize(new Scribble([stroke]));
         expect(shapes.length, equals(1));
